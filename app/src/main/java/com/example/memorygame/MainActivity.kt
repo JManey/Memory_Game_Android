@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.memorygame.models.BoardSize
+import com.example.memorygame.models.MemoryCard
 import com.example.memorygame.utils.DEFAULT_ICONS
 
 
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvNumMoves: TextView
     private lateinit var tvNumPairs: TextView
 
-    private var boardSize: BoardSize = BoardSize.HARD
+    private var boardSize: BoardSize = BoardSize.EASY
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,8 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         val chosenImages :List<Int> = DEFAULT_ICONS.shuffled().take(boardSize.getNumPairs())
         val randomizedImages : List<Int> = (chosenImages + chosenImages).shuffled()
+        val memoryCards = randomizedImages.map { MemoryCard(it) }
 
-        rvBoard.adapter = MemoryBoardAdapter(this, boardSize, randomizedImages)
+        rvBoard.adapter = MemoryBoardAdapter(this, boardSize, memoryCards)
         rvBoard.setHasFixedSize(true)
         rvBoard.layoutManager = GridLayoutManager(this, boardSize.getWidth())
     }
